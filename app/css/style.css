@@ -1,0 +1,34 @@
+.error {
+    color: red;
+}
+
+button#hideSrc {
+    margin-right: 6px;
+}
+
+#graphContainer {
+    overflow : auto;
+    float: left;
+}
+
+#graphSrcContainer {
+    float: left;
+}
+
+textarea#src {
+    width: 95%;
+    border-radius: 1em;
+    border: 1px solid #000;
+    outline: none; 
+    resize: none; 
+    padding: 6px;
+
+}
+
+div#graphSrc {
+    padding-right: 6px;
+}
+
+textarea#src:focus {
+    box-shadow: inset 0 0 3px 2px #f90; 
+}

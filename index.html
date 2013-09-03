@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <title>Simple Dot Renderer</title>
+
+    <!--scripts-->
+    <script type="text/javascript" src="app/js/graph.js"></script>
+    <script type="text/javascript" src="app/js/graphsrc.js"></script>
+    <script type="text/javascript" src="vendor/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="vendor/js/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="vendor/js/viz.js"></script>
+    <!--scripts end-->
+    
+    <!--styles-->
+    <link rel="stylesheet" href="app/css/style.css" />
+    <!--styles end-->
+  </head>
+
+  <body>
+
+    <div id="graphSrcContainer"></div>
+    <div id="graphContainer"></div>
+
+    <script type="text/javascript">
+        
+        var getMaxWidthOfGraph = function() {
+            return $("body").width() - $("#graphSrcContainer").width() - 50;            
+        }
+
+        $(document).ready(function() {
+            
+            var drawSuccessCallback = graphsrc.setSrcOk;
+            var drawFailedCallback = graphsrc.setSrcInvalid;
+
+            var srcChangedCallback = function() { graph.draw(graphsrc.getSrc(), drawSuccessCallback, drawFailedCallback); };
+            var srcToggledCallback = function() { graph.setMaxWidth(getMaxWidthOfGraph()); };
+
+            var examples = [{"name": "hello world", "src": $("#helloWorldExample").html()},
+                            {"name": "example class diagram", "src": $("#classesExample").html()},
+                            {"name": "example flow chart", "src": $("#clusterExample").html()}];
+
+            graphsrc.init("graphSrcContainer", examples, srcChangedCallback, srcToggledCallback);
+
+            graph.init("graphContainer");            
+            graph.draw(graphsrc.getSrc(), drawSuccessCallback, drawFailedCallback);
+
+        });        
+
+    </script>
+
+<script type="text/vnd.graphviz" id="helloWorldExample">
+digraph G {
+  // start typing here
+  Hello -> World
+}</script>
+
+<script type="text/vnd.graphviz" id="classesExample">
+digraph G {
+
+  fontname = "Bitstream Vera Sans"
+  fontsize = 8
+
+  node [
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    shape = "record"
+  ]
+
+  Employee [label = "{Employee|firstname : string\llastname :string}"]
+  Department [label = "{Department|+ name : string}"]
+  Role [label="{Role|}"]
+
+  edge [
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    arrowhead = none
+    taillabel = "*"
+  ]
+  
+  // one to many relationships
+  Employee -> Department
+
+  edge [
+    headlabel = "*"
+    taillabel = "*"
+  ]
+
+  // many to many
+  Employee -> Role
+
+}</script>
+
+<script type="text/vnd.graphviz" id="clusterExample">
+digraph G {
+
+    subgraph cluster_0 {
+        style=filled;
+        color=lightgrey;
+        node [style=filled,color=white];
+        a0 -> a1 -> a2 -> a3;
+        label = "process #1";
+    }
+
+    subgraph cluster_1 {
+        node [style=filled];
+        b0 -> b1 -> b2 -> b3;
+        label = "process #2";
+        color=blue
+    }
+    start -> a0;
+    start -> b0;
+    a1 -> b3;
+    b2 -> a3;
+    a3 -> a0;
+    a3 -> end;
+    b3 -> end;
+
+    start [shape=Mdiamond];
+    end [shape=Msquare];
+}
+</script>
+
+  </body> 
