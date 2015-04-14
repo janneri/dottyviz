@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    prodfolder: "appengine/ui",
+    prodfolder: "appengine/dottyviz/ui",
 
     clean: ["<%= prodfolder %>/*"],
 
