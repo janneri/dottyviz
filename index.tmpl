@@ -30,12 +30,20 @@
             var drawSuccessCallback = graphsrc.setSrcOk;
             var drawFailedCallback = graphsrc.setSrcInvalid;
 
-            var srcChangedCallback = function() { graph.draw(graphsrc.getSrc(), drawSuccessCallback, drawFailedCallback); };
+            var srcChangedCallback = function() { 
+              graph.draw(graphsrc.getSrc(), drawSuccessCallback, drawFailedCallback); 
+              localStorage.setItem('dottyviz_src', graphsrc.getSrc());
+            };
+
             var srcToggledCallback = function() { graph.setMaxWidth(getMaxWidthOfGraph()); };
 
             var examples = [{"name": "hello world", "src": $("#helloWorldExample").html()},
                             {"name": "example class diagram", "src": $("#classesExample").html()},
                             {"name": "example flow chart", "src": $("#clusterExample").html()}];
+
+            if ( localStorage.getItem('dottyviz_src') ) {
+              examples.unshift({"name": "my last graph", "src": localStorage.getItem('dottyviz_src')});
+            }
 
             graphsrc.init("graphSrcContainer", examples, srcChangedCallback, srcToggledCallback);
 
